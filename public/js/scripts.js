@@ -31,8 +31,7 @@ const generatePalette = () => {
   const colorArr = colorDomArr.forEach( color => {
     const randomColor = getRandomColor();
     color.css('backgroundColor', `${randomColor}`);
-    console.log(color.find('.hex'))
-    color.find('.hex').text(randomColor)
+    color.parents().find('.hex').text(randomColor)
   })
 }
 
@@ -44,4 +43,3 @@ let color = getRandomColor();
 
 
 $(document).ready(generatePalette);
-
