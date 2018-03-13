@@ -2,29 +2,56 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:700" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css" />
     <title>Palette Picker</title>
   </head>
   <body>
     <h1>Palette Picker</h1>
-    <section class='color-wrap'>
-      <div class="color-1 color-div">
-        <p class="hex"></p>
+    <section class="color-wrap">
+      <div class="swatch-wrap">
+        <div class="color-1 color-div">
+        </div>
+        <div class="swatch-bottom-wrap">
+          <p class="hex"></p>
+          <div class="lock"></div>
+        </div>
       </div>
-      <div class="color-2 color-div">
-        <p class="hex"></p>
+      <div class="swatch-wrap">
+        <div class="color-2 color-div">
+        </div>
+        <div class="swatch-bottom-wrap">
+          <p class="hex"></p>
+          <div class="lock"></div>
+        </div>
       </div>
-      <div class="color-3 color-div">
-        <p class="hex"></p>
+      <div class="swatch-wrap">
+        <div class="color-3 color-div">
+        </div>
+        <div class="swatch-bottom-wrap">
+          <p class="hex"></p>
+          <div class="lock"></div>
+        </div>
       </div>
-      <div class="color-4 color-div">
-        <p class="hex"></p>
+      <div class="swatch-wrap">
+        <div class="color-4 color-div">
+        </div>
+        <div class="swatch-bottom-wrap">
+          <p class="hex"></p>
+          <div class="lock"></div>
+        </div>
       </div>
-      <div class="color-5 color-div">
-        <p class="hex"></p>
+      <div class="swatch-wrap">
+        <div class="color-5 color-div">
+        </div>
+        <div class="swatch-bottom-wrap">
+          <p class="hex"></p>
+          <div class="lock"></div>
+        </div>
       </div>
     </section>
-    <button onclick="generatePalette()">Generate New Palette</button>
+    <button class="generate-palette"
+            onclick="generatePalette()">Generate New Palette</button>
     <form>
       <select name="" id="project-select">
         <option value="project">Name of Project</option>
