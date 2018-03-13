@@ -10,6 +10,32 @@ h1 {
   margin: 20px 0;
 }
 
+select {
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='#000' width='50px' height='50px'><polyline points='46.139,15.518 25.166,36.49 4.193,15.519'/></svg>");
+  background-color:#fff;
+  background-repeat:no-repeat;
+  background-position: right 10px top 15px;
+  background-size: 16px 16px;
+  padding: 15px 30px 15px 12px;
+  width:auto;
+  font-family:arial,tahoma;
+  font-size:16px;
+  font-weight:bold;
+  color:#000;
+  text-align:center;
+  text-shadow:0 -1px 0 rgba(0, 0, 0, 0.25);
+  border-radius:3px;
+  -webkit-border-radius:3px;
+  -webkit-appearance: none;
+  border:0;
+  outline:0;
+  -webkit-transition:0.3s ease all;
+     -moz-transition:0.3s ease all;
+      -ms-transition:0.3s ease all;
+       -o-transition:0.3s ease all;
+          transition:0.3s ease all;
+}
+
 .color-wrap {
   display: flex;
   justify-content: center;
@@ -25,7 +51,7 @@ h1 {
   align-items: flex-end;
   justify-content: center;
   position: relative;
-  height: 60vh;
+  height: 45vh;
   width: 100%;
 }
 
@@ -57,6 +83,58 @@ h1 {
   margin: 13px 0 20px;
   background: #dcdcdc;
   font-size: 1.2em;
-  height: 50px;
-  width: 280px;
+  height: 60px;
+  width: 320px;
+}
+
+.button {
+  margin: 1rem;
+  z-index: 0;
+  position: relative;
+  display: inline-block;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-decoration: none;
+  letter-spacing: .1rem;
+  background-color: #b32586;
+  color: #222;
+  transition: color .2s ease-out;
+}
+
+.button:hover,
+.button.focused {
+  color: #b32586;
+}
+
+.button::after {
+  z-index: -1;
+  margin: .2rem;
+  background-color: #fff;
+}
+
+.button::before {
+  background-image: linear-gradient(
+    to top right,
+    #94c11f   0%,
+    #6fb746  12.5%,
+    #44b05e  25%,
+    #249a91  37.5%,
+    #1a7cb2  50%,
+    #4a58a3  62.5%,
+    #622e88  75%,
+    #541b6a  87.5%,
+    #3f0e4d  100%
+  );
+  z-index: -2;
+  background-color: #222;
+  transition: opacity .2s ease-out
+}
+
+.button::before,
+.button::after {
+  display: block;
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
 }
