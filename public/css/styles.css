@@ -1,15 +1,62 @@
+h1, 
+button,
+.hex {
+  font-family: 'Work Sans', sans-serif;
+}
+
+h1 {
+  color: #ff008c;
+  font-size: 2em;
+  margin: 20px 0;
+}
+
 .color-wrap {
   display: flex;
+  justify-content: center;
+}
+
+.swatch-wrap {
+  width: 17%;
+  margin: 10px;
 }
 
 .color-div {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
   position: relative;
-  height: 300px;
-  width: 20%;
+  height: 60vh;
+  width: 100%;
 }
 
 .hex {
-  position: absolute;
-  bottom: -38px;
-  left: 39%;
+  color: #424242;
+  margin: 0;
+}
+
+.lock {
+  height: 40px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('../assets/unlocked.svg');
+  width: 40px;
+}
+
+.swatch-bottom-wrap {
+  border: 1px solid #d3d3d3;
+  border-top: none;
+  display: flex;
+  justify-content: space-between;
+  padding: 19px 19px 38px;
+  text-align: center;
+}
+
+.generate-palette {
+  border: none;
+  margin: 13px 0 20px;
+  background: #dcdcdc;
+  font-size: 1.2em;
+  height: 50px;
+  width: 280px;
 }
