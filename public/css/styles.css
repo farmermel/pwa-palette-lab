@@ -1,0 +1,15 @@
+.color-wrap {
+  display: flex;
+}
+
+.color-div {
+  position: relative;
+  height: 300px;
+  width: 20%;
+}
+
+.hex {
+  position: absolute;
+  bottom: -38px;
+  left: 39%;
+}
