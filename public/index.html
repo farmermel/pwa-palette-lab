@@ -50,14 +50,20 @@
         </div>
       </div>
     </section>
-    <button class="generate-palette"
+    <button class="generate-palette button"
             onclick="generatePalette()">Generate New Palette</button>
-    <form>
-      <select name="" id="project-select">
-        <option value="project">Name of Project</option>
+    <form onsubmit="savePalette(event)">
+      <select id="project-select">
+        <option value="project">Pick a Project</option>
       </select>
       <input type="text" />
-      <button onsubmit="savePalette()">Save Palette</button>
+      <button>Save Palette</button>
+    </form>
+    <form onsubmit="createProject(event)">
+      <label for="create-project">
+        <input type="text" id="create-project" />
+      </label>
+      <button>Create Project</button>
     </form>
     <script>window.jQuery || document.write('<script src="/jquery/jquery.js"><\/script>')</script>
     <script src="js/scripts.js" type="text/javascript"></script>
