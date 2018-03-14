@@ -17,6 +17,18 @@ $.cssHooks.backgroundColor = {
     }
 }
 
+const toggleLocked = event => {
+  //find closest div
+
+  console.log($(event.target))
+  $(event.target).toggleClass('image-locked');
+  $(event.target).toggleClass('lock');
+  $(event.target).parent().siblings('.color-div').toggleClass('locked');
+  //mark it somehow to stop new generation
+  //in generate palette
+  //also change background of this lock
+}
+
 const prependProjectOption = project => {
   console.log(project)
   $('#project-select').prepend(`
@@ -40,14 +52,22 @@ const getRandomColor = () => {
     return i>5 ? null : a[Math.floor(Math.random()*16)] }).join('');
 }
 
+const renderNewPalette = colorDomArr => {
+  let randomColor;
+  const colorArr = colorDomArr.forEach( color => {
+    if( color.hasClass('locked') ) {
+      color.css('backgroundColor')
+    } else {
+      randomColor = getRandomColor();
+      color.css('backgroundColor', `${randomColor}`);
+      color.siblings('.swatch-bottom-wrap').find('.hex').text(randomColor);
+    }
+  })
+} 
+
 const generatePalette = () => {
   const colorDomArr = getColorDivs();
-
-  const colorArr = colorDomArr.forEach( color => {
-    const randomColor = getRandomColor();
-    color.css('backgroundColor', `${randomColor}`);
-    color.parents().find('.hex').text(randomColor)
-  })
+  renderNewPalette(colorDomArr);
 }
 
 const createProject = async event => {
@@ -64,6 +84,7 @@ const createProject = async event => {
     const initialResponse = await fetch('api/v1/projects', postBody);
     const projectResponse = await initialResponse.json();
     prependProjectOption(projectResponse);
+    $('#create-project').val('');
   } catch(error) {
     console.log(error);
   }
@@ -80,10 +101,12 @@ const savePalette = async event => {
     return color.css('backgroundColor')
   })
   const assocProjectId = getAssociatedProject();
+  const paletteName = $('.palette-name').val();
   const postBody = {
     method: 'POST',
     body: JSON.stringify({ palette: colorArr,
-                           project_id: assocProjectId }), 
+                           project_id: assocProjectId,
+                           palette_name: paletteName }), 
     headers: {
       'Content-Type': 'application/json'
     }
@@ -92,10 +115,56 @@ const savePalette = async event => {
   const paletteResponse = await initialResponse.json();
 }
 
+const displayColors = colorArr => {
+  return colorArr.map( color => {
+    return (`
+      <div class='color-circle' style='background-color:${color}'></div>
+    `)
+  }).join('');
+}
+
+const renderPalettes = (projectId, palettes) => {
+  const matchPalettes = palettes.filter( palette => {
+    return parseInt(palette.project_id) === projectId;
+  })
+  const log = matchPalettes.map( palette => {
+    return (`
+      <article class="palette-wrap">
+        <h4>${palette.palette_name}</h4>
+        <div class='color-circle-wrap'>${displayColors(palette.palette)}</div>
+        <img src="/assets/trash.svg" 
+             alt="trash"
+             class="trash" />
+      </article>
+    `)
+  }).join('');
+  return log
+}
+
+const renderProjects = (projects, palettes) => {
+  const projectsToRender = projects.map( project => {
+    return (`
+      <article>
+        <h3>${ project.project }</h3>
+        <div>${ renderPalettes(project.id, palettes) }</div>
+      </article>
+    `)
+  })
+  $('.projects-wrap').append(projectsToRender);
+}
+
 const displayProjects = async () => {
-  const initialResponse = await fetch('/api/v1/projects');
-  const projects = initialResponse.json();
-  
+  try {
+    const initialProjResponse = await fetch('/api/v1/projects');
+    const initialPaletteResponse = await fetch('/api/v1/palettes');
+    const projects = await initialProjResponse.json();
+    const palettes = await initialPaletteResponse.json();
+    renderProjects(projects, palettes);
+  } catch (error) {
+    console.log(error);
+  }
+
+
 }
 
 $(document).ready(() => {
