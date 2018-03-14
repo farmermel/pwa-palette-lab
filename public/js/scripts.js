@@ -1,20 +1,20 @@
 $.cssHooks.backgroundColor = {
-    get: function(elem) {
-        if (elem.currentStyle)
-            var bg = elem.currentStyle["backgroundColor"];
-        else if (window.getComputedStyle)
-            var bg = document.defaultView.getComputedStyle(elem,
-                null).getPropertyValue("background-color");
-        if (bg.search("rgb") == -1)
-            return bg;
-        else {
-            bg = bg.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-            function hex(x) {
-                return ("0" + parseInt(x).toString(16)).slice(-2);
-            }
-            return "#" + hex(bg[1]) + hex(bg[2]) + hex(bg[3]);
+  get: function(elem) {
+    if (elem.currentStyle)
+        var bg = elem.currentStyle["backgroundColor"];
+    else if (window.getComputedStyle)
+        var bg = document.defaultView.getComputedStyle(elem,
+            null).getPropertyValue("background-color");
+    if (bg.search("rgb") == -1)
+        return bg;
+    else {
+        bg = bg.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+        function hex(x) {
+            return ("0" + parseInt(x).toString(16)).slice(-2);
         }
+        return "#" + hex(bg[1]) + hex(bg[2]) + hex(bg[3]);
     }
+  }
 }
 
 const toggleLocked = event => {
@@ -29,11 +29,13 @@ const toggleLocked = event => {
   //also change background of this lock
 }
 
-const prependProjectOption = project => {
-  console.log(project)
+const prependProjectOption = async project => {
+  const initialResponse = await fetch(`api/v1/projects/${project.id}`);
+  const projectResponse = await initialResponse.json();
+  console.log(projectResponse)
   $('#project-select').prepend(`
-    <option value='${project.project}'
-            id='${project.id}'>${project.project}</option>
+    <option value='${projectResponse[0].project}'
+            id='${projectResponse[0].id}'>${projectResponse[0].project}</option>
     `);
 }
 
