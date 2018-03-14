@@ -14,7 +14,8 @@
         </div>
         <div class="swatch-bottom-wrap">
           <p class="hex"></p>
-          <div class="lock"></div>
+          <div class="lock"
+               onclick="toggleLocked(event)"></div>
         </div>
       </div>
       <div class="swatch-wrap">
@@ -22,7 +23,8 @@
         </div>
         <div class="swatch-bottom-wrap">
           <p class="hex"></p>
-          <div class="lock"></div>
+          <div class="lock"
+               onclick="toggleLocked(event)"></div>
         </div>
       </div>
       <div class="swatch-wrap">
@@ -30,7 +32,8 @@
         </div>
         <div class="swatch-bottom-wrap">
           <p class="hex"></p>
-          <div class="lock"></div>
+          <div class="lock"
+               onclick="toggleLocked(event)"></div>
         </div>
       </div>
       <div class="swatch-wrap">
@@ -38,7 +41,8 @@
         </div>
         <div class="swatch-bottom-wrap">
           <p class="hex"></p>
-          <div class="lock"></div>
+          <div class="lock"
+               onclick="toggleLocked(event)"></div>
         </div>
       </div>
       <div class="swatch-wrap">
@@ -46,7 +50,8 @@
         </div>
         <div class="swatch-bottom-wrap">
           <p class="hex"></p>
-          <div class="lock"></div>
+          <div class="lock"
+               onclick="toggleLocked(event)"></div>
         </div>
       </div>
     </section>
@@ -56,7 +61,7 @@
       <select id="project-select">
         <option value="project">Pick a Project</option>
       </select>
-      <input type="text" />
+      <input type="text" class="palette-name" />
       <button>Save Palette</button>
     </form>
     <form onsubmit="createProject(event)">
@@ -65,6 +70,7 @@
       </label>
       <button>Create Project</button>
     </form>
+    <div class='projects-wrap'></div>
     <script>window.jQuery || document.write('<script src="/jquery/jquery.js"><\/script>')</script>
     <script src="js/scripts.js" type="text/javascript"></script>
   </body>
