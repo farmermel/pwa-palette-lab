@@ -4,6 +4,11 @@ button,
   font-family: 'Work Sans', sans-serif;
 }
 
+button:hover,
+select:hover {
+  cursor: pointer;
+}
+
 h1 {
   color: #ff008c;
   font-size: 2em;
@@ -69,6 +74,33 @@ select {
   width: 40px;
 }
 
+.image-locked {
+  height: 40px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('../assets/locked.svg');
+  width: 40px;
+}
+
+.lock:hover {
+  cursor: pointer;
+}
+
+.palette-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.trash {
+  height: 25px;
+  width: 25px;
+}
+
+.trash:hover {
+  cursor: pointer;
+}
+
 .swatch-bottom-wrap {
   border: 1px solid #d3d3d3;
   border-top: none;
@@ -85,6 +117,13 @@ select {
   font-size: 1.2em;
   height: 60px;
   width: 320px;
+}
+
+.color-circle {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
 }
 
 .button {
@@ -109,7 +148,8 @@ select {
 
 .button::after {
   z-index: -1;
-  margin: .2rem;
+  /*change width of border*/
+  margin: .1rem;
   background-color: #fff;
 }
 
@@ -138,3 +178,75 @@ select {
   position: absolute;
   top: 0; right: 0; bottom: 0; left: 0;
 }
+
+
+
+
+
+
+/*
+
+
+body {
+  background: #232323;
+  color: #fff;
+  font-family: 'Belleza', sans-serif;
+}
+h1 {
+  font-size: 3em;
+}
+.container {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.circle {
+  width: 8em;
+  height: 8em;
+  background: #666666;
+  fill: red;
+  display: inline-block;
+  border-radius: 100%;
+  overflow: hidden;
+  margin: 0 3em;
+}
+.circle.circle--red .wave {
+  fill: #fff;
+}
+.circle.circle--green .wave {
+  fill: #27ae60;
+}
+.circle.circle--blue .wave {
+  fill: #2980b9;
+}
+.circle .wave {
+  -webkit-animation: fillup 4s linear;
+  -moz-animation: fillup 4s linear;
+  -o-animation: fillup 4s linear;
+  animation: fillup 4s linear;
+}
+@-moz-keyframes fillup {
+  0% {
+    -moz-transform: translate(0, 8em);
+  }
+  100% {
+    -moz-transform: translate(-82%, -1em);
+  }
+}
+@-webkit-keyframes fillup {
+  0% {
+    -webkit-transform: translate(0, 8em);
+  }
+  100% {
+    -webkit-transform: translate(-82%, -1em);
+  }
+}
+@keyframes fillup {
+  0% {
+    transform: translate(0, 8em);
+  }
+  100% {
+    transform: translate(-82%, -1em);
+  }
+}
+*/
