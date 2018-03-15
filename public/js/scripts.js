@@ -17,6 +17,25 @@ $.cssHooks.backgroundColor = {
   }
 }
 
+$.cssHooks.fill = {
+  get: function(elem) {
+    if (elem.currentStyle)
+        var bg = elem.currentStyle["fill"];
+    else if (window.getComputedStyle)
+        var bg = document.defaultView.getComputedStyle(elem,
+            null).getPropertyValue("fill");
+    if (bg.search("rgb") == -1)
+        return bg;
+    else {
+        bg = bg.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+        function hex(x) {
+            return ("0" + parseInt(x).toString(16)).slice(-2);
+        }
+        return "#" + hex(bg[1]) + hex(bg[2]) + hex(bg[3]);
+    }
+  }
+}
+
 const toggleLocked = event => {
   $(event.target).toggleClass('image-locked');
   $(event.target).toggleClass('lock');
@@ -50,11 +69,12 @@ const getRandomColor = () => {
 const renderNewPalette = colorDomArr => {
   let randomColor;
   const colorArr = colorDomArr.forEach( color => {
+    console.log(color)
     if( color.hasClass('locked') ) {
-      color.css('backgroundColor')
+      color.css('fill')
     } else {
       randomColor = getRandomColor();
-      color.css('backgroundColor', `${randomColor}`);
+      color.css('fill', `${randomColor}`);
       color.siblings('.swatch-bottom-wrap').find('.hex').text(randomColor);
     }
   })
@@ -95,10 +115,10 @@ const savePalette = async event => {
   event.preventDefault();
   const colorDomArr = getColorDivs();
   const colorArr = colorDomArr.map(color => {
-    return color.css('backgroundColor')
+    return color.css('fill')
   })
   const assocProjectId = getAssociatedProject();
-  const paletteName = $('.palette-name').val();
+  const paletteName = $('.palette-name-input').val();
   const postBody = {
     method: 'POST',
     body: JSON.stringify({ palette: colorArr,
@@ -156,7 +176,7 @@ const renderProjects = (projects, palettes) => {
   const projectsToRender = projects.map( project => {
     return (`
       <article>
-        <h3>${ project.project }</h3>
+        <h2>${ project.project }</h2>
         <div>${ renderPalettes(project.id, palettes) }</div>
       </article>
     `)
