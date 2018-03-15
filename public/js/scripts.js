@@ -110,6 +110,7 @@ const savePalette = async event => {
   }
   const initialResponse = await fetch('api/v1/palettes', postBody);
   const paletteResponse = await initialResponse.json();
+  //render palette here??
 }
 
 const displayColors = colorArr => {
@@ -120,18 +121,32 @@ const displayColors = colorArr => {
   }).join('');
 }
 
+const deletePalette = async event => {
+  const idClass = $(event.target)
+    .parent('.palette-wrap')
+    .attr("class")
+    .split(' ')
+    .find( klass =>  { 
+      return klass.includes('paletteId')})
+  const paletteId = idClass.split('-')[1];
+  const initialResponse = await fetch(`/api/v1/palettes/${paletteId}`, {
+    method: 'delete'
+  });
+}
+
 const renderPalettes = (projectId, palettes) => {
   const matchPalettes = palettes.filter( palette => {
     return parseInt(palette.project_id) === projectId;
   })
   return matchPalettes.map( palette => {
     return (`
-      <article class="palette-wrap">
-        <h4>${palette.palette_name}</h4>
+      <article class='palette-wrap paletteId-${palette.id}'>
+        <h4 class='palette-name'>${palette.palette_name}</h4>
         <div class='color-circle-wrap'>${displayColors(palette.palette)}</div>
         <img src="/assets/trash.svg" 
              alt="trash"
-             class="trash" />
+             class="trash"
+             onclick="deletePalette(event)" />
       </article>
     `)
   }).join('');
@@ -149,18 +164,6 @@ const renderProjects = (projects, palettes) => {
   $('.projects-wrap').append(projectsToRender);
 }
 
-// const renderProjectSelect = projects => {
-//   console.log(projects)
-//   //refactor later to use prependProjectOption
-//   projects.forEach( project => {
-
-//     $('#project-select').prepend(`
-//     <option value='${project.project}'
-//             id='${project.id}'>${project.project}</option>
-//     `);
-//   })
-// }
-
 const displayProjects = async () => {
   try {
     const initialProjResponse = await fetch('/api/v1/projects');
@@ -172,8 +175,6 @@ const displayProjects = async () => {
   } catch (error) {
     console.log(error);
   }
-
-
 }
 
 $(document).ready(() => {
