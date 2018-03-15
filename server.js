@@ -103,3 +103,5 @@ app.post('/api/v1/projects', (request, response) => {
       response.status(500).json({ error: 'boop' });
     });
 });
+
+module.exports = app;
