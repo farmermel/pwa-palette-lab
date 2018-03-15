@@ -1,6 +1,4 @@
-h1, 
-button,
-.hex {
+body {
   font-family: 'Work Sans', sans-serif;
 }
 
@@ -71,6 +69,7 @@ select {
   background-repeat: no-repeat;
   background-position: center;
   background-image: url('../assets/unlocked.svg');
+  min-width: 35px;
   width: 40px;
 }
 
@@ -79,7 +78,7 @@ select {
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
-  background-image: url('../assets/locked.svg');
+  background-image: url('../assets/verylocked.svg');
   width: 40px;
 }
 
@@ -93,12 +92,19 @@ select {
 }
 
 .trash {
+  margin: 0 0 0 8px;
   height: 25px;
   width: 25px;
 }
 
 .trash:hover {
   cursor: pointer;
+}
+
+.projects-wrap-wrap {
+  margin: 25px 0;
+  height: 1px;
+  background: -webkit-gradient(linear, 7% 0, 93% 0, from(white), to(white), color-stop(50%, #e56b94));
 }
 
 .swatch-bottom-wrap {
@@ -179,7 +185,10 @@ select {
   top: 0; right: 0; bottom: 0; left: 0;
 }
 
-
+.palette-name {
+  padding: 0 10px 0 0;
+  width: 80px;
+}
 
 
 
@@ -199,7 +208,7 @@ h1 {
   text-align: center;
   max-width: 800px;
   margin: 0 auto;
-}
+} */
 .circle {
   width: 8em;
   height: 8em;
@@ -209,7 +218,7 @@ h1 {
   border-radius: 100%;
   overflow: hidden;
   margin: 0 3em;
-}
+} 
 .circle.circle--red .wave {
   fill: #fff;
 }
@@ -249,4 +258,3 @@ h1 {
     transform: translate(-82%, -1em);
   }
 }
-*/
