@@ -18,25 +18,18 @@ $.cssHooks.backgroundColor = {
 }
 
 const toggleLocked = event => {
-  //find closest div
-
-  console.log($(event.target))
   $(event.target).toggleClass('image-locked');
   $(event.target).toggleClass('lock');
   $(event.target).parent().siblings('.color-div').toggleClass('locked');
-  //mark it somehow to stop new generation
-  //in generate palette
-  //also change background of this lock
 }
 
-const prependProjectOption = async project => {
-  const initialResponse = await fetch(`api/v1/projects/${project.id}`);
-  const projectResponse = await initialResponse.json();
-  console.log(projectResponse)
-  $('#project-select').prepend(`
-    <option value='${projectResponse[0].project}'
-            id='${projectResponse[0].id}'>${projectResponse[0].project}</option>
+const renderProjectSelect = projects => {
+  projects.forEach( project => {
+    $('#project-select').prepend(`
+    <option value='${project.project}'
+            id='${project.id}'>${project.project}</option>
     `);
+  })
 }
 
 const getColorDivs = () => {
@@ -83,9 +76,11 @@ const createProject = async event => {
     }
   }
   try {
-    const initialResponse = await fetch('api/v1/projects', postBody);
-    const projectResponse = await initialResponse.json();
-    prependProjectOption(projectResponse);
+    const initialPostResponse = await fetch('api/v1/projects', postBody);
+    const projectId = await initialPostResponse.json();
+    const initialGetResponse = await fetch(`api/v1/projects/${projectId.id}`);
+    const project = await initialGetResponse.json();
+    renderProjectSelect(project);
     $('#create-project').val('');
   } catch(error) {
     console.log(error);
@@ -129,7 +124,7 @@ const renderPalettes = (projectId, palettes) => {
   const matchPalettes = palettes.filter( palette => {
     return parseInt(palette.project_id) === projectId;
   })
-  const log = matchPalettes.map( palette => {
+  return matchPalettes.map( palette => {
     return (`
       <article class="palette-wrap">
         <h4>${palette.palette_name}</h4>
@@ -140,7 +135,6 @@ const renderPalettes = (projectId, palettes) => {
       </article>
     `)
   }).join('');
-  return log
 }
 
 const renderProjects = (projects, palettes) => {
@@ -155,6 +149,18 @@ const renderProjects = (projects, palettes) => {
   $('.projects-wrap').append(projectsToRender);
 }
 
+// const renderProjectSelect = projects => {
+//   console.log(projects)
+//   //refactor later to use prependProjectOption
+//   projects.forEach( project => {
+
+//     $('#project-select').prepend(`
+//     <option value='${project.project}'
+//             id='${project.id}'>${project.project}</option>
+//     `);
+//   })
+// }
+
 const displayProjects = async () => {
   try {
     const initialProjResponse = await fetch('/api/v1/projects');
@@ -162,6 +168,7 @@ const displayProjects = async () => {
     const projects = await initialProjResponse.json();
     const palettes = await initialPaletteResponse.json();
     renderProjects(projects, palettes);
+    renderProjectSelect(projects);
   } catch (error) {
     console.log(error);
   }
