@@ -47,6 +47,17 @@ app.post('/api/v1/palettes', (request, response) => {
     });
 });
 
+app.delete('/api/v1/palettes/:id', (request, response) => {
+  database('palettes').where('id', request.params.id).del()
+    .then(something => {
+      console.log(something);
+      response.status(204).json(something);
+    })
+    .catch(error => {
+      response.status(500).json({ error });
+    })
+})
+
 app.get('/api/v1/projects', (request, response) => {
   database('projects').select()
     .then(projects => {
