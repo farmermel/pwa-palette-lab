@@ -18,25 +18,18 @@ $.cssHooks.backgroundColor = {
 }
 
 const toggleLocked = event => {
-  //find closest div
-
-  console.log($(event.target))
   $(event.target).toggleClass('image-locked');
   $(event.target).toggleClass('lock');
   $(event.target).parent().siblings('.color-div').toggleClass('locked');
-  //mark it somehow to stop new generation
-  //in generate palette
-  //also change background of this lock
 }
 
-const prependProjectOption = async project => {
-  const initialResponse = await fetch(`api/v1/projects/${project.id}`);
-  const projectResponse = await initialResponse.json();
-  console.log(projectResponse)
-  $('#project-select').prepend(`
-    <option value='${projectResponse[0].project}'
-            id='${projectResponse[0].id}'>${projectResponse[0].project}</option>
+const renderProjectSelect = projects => {
+  projects.forEach( project => {
+    $('#project-select').prepend(`
+    <option value='${project.project}'
+            id='${project.id}'>${project.project}</option>
     `);
+  })
 }
 
 const getColorDivs = () => {
@@ -83,9 +76,11 @@ const createProject = async event => {
     }
   }
   try {
-    const initialResponse = await fetch('api/v1/projects', postBody);
-    const projectResponse = await initialResponse.json();
-    prependProjectOption(projectResponse);
+    const initialPostResponse = await fetch('api/v1/projects', postBody);
+    const projectId = await initialPostResponse.json();
+    const initialGetResponse = await fetch(`api/v1/projects/${projectId.id}`);
+    const project = await initialGetResponse.json();
+    renderProjectSelect(project);
     $('#create-project').val('');
   } catch(error) {
     console.log(error);
@@ -115,6 +110,7 @@ const savePalette = async event => {
   }
   const initialResponse = await fetch('api/v1/palettes', postBody);
   const paletteResponse = await initialResponse.json();
+  //render palette here??
 }
 
 const displayColors = colorArr => {
@@ -125,22 +121,35 @@ const displayColors = colorArr => {
   }).join('');
 }
 
+const deletePalette = async event => {
+  const idClass = $(event.target)
+    .parent('.palette-wrap')
+    .attr("class")
+    .split(' ')
+    .find( klass =>  { 
+      return klass.includes('paletteId')})
+  const paletteId = idClass.split('-')[1];
+  const initialResponse = await fetch(`/api/v1/palettes/${paletteId}`, {
+    method: 'delete'
+  });
+}
+
 const renderPalettes = (projectId, palettes) => {
   const matchPalettes = palettes.filter( palette => {
     return parseInt(palette.project_id) === projectId;
   })
-  const log = matchPalettes.map( palette => {
+  return matchPalettes.map( palette => {
     return (`
-      <article class="palette-wrap">
-        <h4>${palette.palette_name}</h4>
+      <article class='palette-wrap paletteId-${palette.id}'>
+        <h4 class='palette-name'>${palette.palette_name}</h4>
         <div class='color-circle-wrap'>${displayColors(palette.palette)}</div>
         <img src="/assets/trash.svg" 
              alt="trash"
-             class="trash" />
+             class="trash"
+             onclick="deletePalette(event)" />
       </article>
     `)
   }).join('');
-  return log
 }
 
 const renderProjects = (projects, palettes) => {
@@ -162,11 +171,10 @@ const displayProjects = async () => {
     const projects = await initialProjResponse.json();
     const palettes = await initialPaletteResponse.json();
     renderProjects(projects, palettes);
+    renderProjectSelect(projects);
   } catch (error) {
     console.log(error);
   }
-
-
 }
 
 $(document).ready(() => {
