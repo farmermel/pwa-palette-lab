@@ -133,7 +133,11 @@ select {
 
 .form-wrap {
   display: flex;
-  align-items: flex-end;
+  /*align-items: flex-end;*/
+  flex-direction: column;
+}
+
+.project-submit-wrap {
   flex-direction: column;
 }
 

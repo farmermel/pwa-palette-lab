@@ -93,11 +93,14 @@
         <input type="text" class="palette-name-input" />
         <button>Save Palette</button>
       </form>
-      <form onsubmit="createProject(event)">
-        <label for="create-project">
-          <input type="text" id="create-project" />
-        </label>
-        <button>Create Project</button>
+      <form onsubmit="createProject(event)" class="project-submit-wrap">
+        <h1>Starting a new project?</h1>
+        <div >
+          <label for="create-project">
+            <input type="text" id="create-project" />
+          </label>
+          <button>Create Project</button>
+        </div>
       </form>
     </section>
     <div class="projects-wrap-wrap">
