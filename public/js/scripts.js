@@ -110,6 +110,8 @@ const createProject = async event => {
     const initialGetResponse = await fetch(`api/v1/projects/${projectId.id}`);
     const project = await initialGetResponse.json();
     renderProjectSelect(project);
+    const paletteProjectObject = await getAllPalettesAndProjects();
+    renderProjects(paletteProjectObject.projects, paletteProjectObject.palettes);
     $('#create-project').val('');
   } catch(error) {
     console.log(error);
