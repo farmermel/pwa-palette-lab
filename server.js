@@ -10,7 +10,6 @@ const database = require('knex')(configuration);
 app.set('port', process.env.PORT || 3006);
 
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
-
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
@@ -49,9 +48,8 @@ app.post('/api/v1/palettes', (request, response) => {
 
 app.delete('/api/v1/palettes/:id', (request, response) => {
   database('palettes').where('id', request.params.id).del()
-    .then(something => {
-      console.log(something);
-      response.status(204).json(something);
+    .then(id => {
+      response.status(204).json(id);
     })
     .catch(error => {
       response.status(500).json({ error });
@@ -100,7 +98,7 @@ app.post('/api/v1/projects', (request, response) => {
       response.status(201).json({ id: project[0] })
     })
     .catch(error => {
-      response.status(500).json({ error: 'boop' });
+      response.status(500).json({ error });
     });
 });
 
