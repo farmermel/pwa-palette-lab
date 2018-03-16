@@ -1,47 +1,3 @@
-// const bgColor = require('../helpers/cssHooks');
-// const fillColor = require('../helpers/cssHooks');
-
-// bgColor();
-// fillColor();
-
-$.cssHooks.backgroundColor = {
-  get: function(elem) {
-    if (elem.currentStyle)
-      var bg = elem.currentStyle["backgroundColor"];
-    else if (window.getComputedStyle)
-      var bg = document.defaultView.getComputedStyle(elem,
-        null).getPropertyValue("background-color");
-    if (bg.search("rgb") == -1)
-      return bg;
-    else {
-      bg = bg.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-      function hex(x) {
-        return ("0" + parseInt(x).toString(16)).slice(-2);
-      }
-      return "#" + hex(bg[1]) + hex(bg[2]) + hex(bg[3]);
-    }
-  }
-}
-
-$.cssHooks.fill = {
-  get: function(elem) {
-    if (elem.currentStyle)
-      var fill = elem.currentStyle["fill"];
-    else if (window.getComputedStyle)
-      var fill = document.defaultView.getComputedStyle(elem,
-        null).getPropertyValue("fill");
-    if (fill.search("rgb") == -1)
-      return fill;
-    else {
-      fill = fill.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-      function hex(x) {
-        return ("0" + parseInt(x).toString(16)).slice(-2);
-      }
-      return "#" + hex(fill[1]) + hex(fill[2]) + hex(fill[3]);
-    }
-  }
-}
-
 const toggleLocked = event => {
   $(event.target).toggleClass('image-locked');
   $(event.target).toggleClass('lock');
@@ -168,7 +124,7 @@ const displayColors = colorArr => {
 const deletePalette = async event => {
   const idClass = $(event.target)
     .parent('.palette-wrap')
-    .attr("class")
+    .attr('class')
     .split(' ')
     .find( klass =>  { 
       return klass.includes('paletteId')})
@@ -179,19 +135,6 @@ const deletePalette = async event => {
   $(`.${idClass}`).remove();
 }
 
-const renderClickedPalette = event => {
-  const colorDomArray = $(event.target).parent().children();
-  const colorArray = [];
-  for(let i = 0; i < 5; i++) {
-    colorArray.push($(colorDomArray[i]));
-
-    // colorArray.push(colorDomArray[i].style.backgroundColor);
-  }
-  debugger
-  console.log(colorArray)
-  // .forEach(child => console.log(child.style('backgroundColor')))
-}
-
 const renderPalettes = (projectId, palettes) => {
   const matchPalettes = palettes.filter( palette => {
     return palette.project_id === projectId;
@@ -200,8 +143,7 @@ const renderPalettes = (projectId, palettes) => {
     return (`
       <article class='palette-wrap paletteId-${palette.id}'>
         <h4 class='palette-name'>${palette.palette_name}</h4>
-        <div class='color-circle-wrap'
-             onclick='renderClickedPalette(event)'>${displayColors(palette.palette)}</div>
+        <div class='color-circle-wrap'>${displayColors(palette.palette)}</div>
         <img src='/assets/trash.svg' 
              alt='trash'
              class='trash'
