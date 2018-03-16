@@ -1,16 +1,16 @@
 body {
-  font-family: 'Quicksand', sans-serif;
+  align-items: center;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  align-items: center;
+  font-family: 'Quicksand', sans-serif;
   font-weight: 300;
 }
 
 form {
   margin: 10px;
-  display: flex;
   align-items: center;
+  display: flex;
 }
 
 input {
@@ -34,21 +34,25 @@ select:hover {
 }
 
 h1 {
+  margin: 20px 0;
   color: #e56b94;
   font-size: 2em;
-  margin: 20px 0;
+}
+
+h2 {
+  color: #e56b94;
 }
 
 select {
+  border: 0;
+  border-radius: 3px;
+  padding: 15px 30px 15px 12px;
+  margin: 0 15px 0 0;
   background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='#000' width='50px' height='50px'><polyline points='46.139,15.518 25.166,36.49 4.193,15.519'/></svg>");
   background-color: #fff;
   background-repeat: no-repeat;
   background-position: right 10px top 15px;
   background-size: 16px 16px;
-  border: 0;
-  border-radius: 3px;
-  padding: 15px 30px 15px 12px;
-  margin: 0 15px 0 0;
   -webkit-border-radius: 3px;
   color: #e56b94;
   font-family: arial,tahoma;
@@ -64,13 +68,13 @@ select {
 }
 
 .page-title {
-  font-size: 4.7em;
   display: inline-block;
+  font-size: 4.7em;
 }
 
 .chemistry-set {
-  width: 60px;
   height: 60px;
+  width: 60px;
 }
 
 .color-wrap {
@@ -79,13 +83,13 @@ select {
 }
 
 .swatch-wrap {
-  width: 17%;
   margin: 10px;
+  width: 17%;
 }
 
 .color-div {
-  display: flex;
   align-items: flex-end;
+  display: flex;
   justify-content: center;
   position: relative;
   height: 45vh;
@@ -93,8 +97,8 @@ select {
 }
 
 .hex {
-  color: #424242;
   margin: 0;
+  color: #424242;
   width: 67px;
 }
 
@@ -123,8 +127,8 @@ select {
 }
 
 .palette-wrap {
-  display: flex;
   align-items: center;
+  display: flex;
 }
 
 .palette-name {
@@ -133,7 +137,6 @@ select {
 
 .form-wrap {
   display: flex;
-  /*align-items: flex-end;*/
   flex-direction: column;
 }
 
@@ -152,12 +155,12 @@ select {
 }
 
 .projects-wrap-wrap {
+  margin: 25px 0;
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin: 25px 0;
-  height: 1px;
   background: -webkit-gradient(linear, 1% 0, 99% 0, from(white), to(white), color-stop(50%, #e56b94));
+  height: 1px;
   width: 100%;
 }
 
@@ -166,9 +169,9 @@ select {
 }
 
 .swatch-bottom-wrap {
-  display: flex;
-  align-items: center;
   padding: 19px 19px 38px 54px;
+  align-items: center;
+  display: flex;
   text-align: center;
 }
 
@@ -183,15 +186,15 @@ select {
 .color-circle {
   border-radius: 100%;
   display: inline-block;
-  width: 50px;
   height: 50px;
+  width: 50px;
 }
 
 .circle {
   border-radius: 100%;
   margin: 0 2em;
-  background: #fff;
   display: inline-block;
+  background: #fff;
   height: 9em;
   overflow: hidden;
   width: 9em;
