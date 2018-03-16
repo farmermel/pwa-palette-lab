@@ -65,6 +65,12 @@ select {
 
 .page-title {
   font-size: 4.7em;
+  display: inline-block;
+}
+
+.chemistry-set {
+  width: 60px;
+  height: 60px;
 }
 
 .color-wrap {
@@ -89,6 +95,7 @@ select {
 .hex {
   color: #424242;
   margin: 0;
+  width: 67px;
 }
 
 .lock {
