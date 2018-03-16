@@ -1,18 +1,24 @@
+// const bgColor = require('../helpers/cssHooks');
+// const fillColor = require('../helpers/cssHooks');
+
+// bgColor();
+// fillColor();
+
 $.cssHooks.backgroundColor = {
   get: function(elem) {
     if (elem.currentStyle)
-        var bg = elem.currentStyle["backgroundColor"];
+      var bg = elem.currentStyle["backgroundColor"];
     else if (window.getComputedStyle)
-        var bg = document.defaultView.getComputedStyle(elem,
-            null).getPropertyValue("background-color");
+      var bg = document.defaultView.getComputedStyle(elem,
+        null).getPropertyValue("background-color");
     if (bg.search("rgb") == -1)
-        return bg;
+      return bg;
     else {
-        bg = bg.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-        function hex(x) {
-            return ("0" + parseInt(x).toString(16)).slice(-2);
-        }
-        return "#" + hex(bg[1]) + hex(bg[2]) + hex(bg[3]);
+      bg = bg.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+      function hex(x) {
+        return ("0" + parseInt(x).toString(16)).slice(-2);
+      }
+      return "#" + hex(bg[1]) + hex(bg[2]) + hex(bg[3]);
     }
   }
 }
@@ -20,18 +26,18 @@ $.cssHooks.backgroundColor = {
 $.cssHooks.fill = {
   get: function(elem) {
     if (elem.currentStyle)
-        var bg = elem.currentStyle["fill"];
+      var fill = elem.currentStyle["fill"];
     else if (window.getComputedStyle)
-        var bg = document.defaultView.getComputedStyle(elem,
-            null).getPropertyValue("fill");
-    if (bg.search("rgb") == -1)
-        return bg;
+      var fill = document.defaultView.getComputedStyle(elem,
+        null).getPropertyValue("fill");
+    if (fill.search("rgb") == -1)
+      return fill;
     else {
-        bg = bg.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-        function hex(x) {
-            return ("0" + parseInt(x).toString(16)).slice(-2);
-        }
-        return "#" + hex(bg[1]) + hex(bg[2]) + hex(bg[3]);
+      fill = fill.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+      function hex(x) {
+        return ("0" + parseInt(x).toString(16)).slice(-2);
+      }
+      return "#" + hex(fill[1]) + hex(fill[2]) + hex(fill[3]);
     }
   }
 }
@@ -62,14 +68,17 @@ const getColorDivs = () => {
 
 const getRandomColor = () => {
   const hexOptions = '0123456789abcdef';
-  return '#' + hexOptions.split('').map(function(v,i,a){
-    return i>5 ? null : a[Math.floor(Math.random()*16)] }).join('');
+  const hexOptionsArr = hexOptions.split('');
+  const hexArr = [];
+  for (let i = 0; i < 6; i++) {
+    hexArr.push(hexOptionsArr[Math.floor(Math.random()*16)]);
+  }
+  return '#' + hexArr.join('');
 }
 
 const renderNewPalette = colorDomArr => {
   let randomColor;
   const colorArr = colorDomArr.forEach( color => {
-    console.log(color)
     if( color.hasClass('locked') ) {
       color.css('fill')
     } else {
@@ -107,6 +116,17 @@ const createProject = async event => {
   }
 }
 
+const getAllPalettesAndProjects = async () => {
+  const initialProjResponse = await fetch('/api/v1/projects');
+  const initialPaletteResponse = await fetch('/api/v1/palettes');
+  const projects = await initialProjResponse.json();
+  const palettes = await initialPaletteResponse.json();
+  return {
+    projects,
+    palettes
+  }
+}
+
 const getAssociatedProject = () => {
   return $('#project-select').find(':selected')[0].id;
 }
@@ -130,7 +150,9 @@ const savePalette = async event => {
   }
   const initialResponse = await fetch('api/v1/palettes', postBody);
   const paletteResponse = await initialResponse.json();
-  //render palette here??
+  const paletteProjectObject = await getAllPalettesAndProjects();
+  renderProjects(paletteProjectObject.projects, paletteProjectObject.palettes);
+  $('.palette-name-input').val('');
 }
 
 const displayColors = colorArr => {
@@ -152,46 +174,60 @@ const deletePalette = async event => {
   const initialResponse = await fetch(`/api/v1/palettes/${paletteId}`, {
     method: 'delete'
   });
+  $(`.${idClass}`).remove();
+}
+
+const renderClickedPalette = event => {
+  const colorDomArray = $(event.target).parent().children();
+  const colorArray = [];
+  for(let i = 0; i < 5; i++) {
+    colorArray.push($(colorDomArray[i]));
+
+    // colorArray.push(colorDomArray[i].style.backgroundColor);
+  }
+  debugger
+  console.log(colorArray)
+  // .forEach(child => console.log(child.style('backgroundColor')))
 }
 
 const renderPalettes = (projectId, palettes) => {
   const matchPalettes = palettes.filter( palette => {
-    return parseInt(palette.project_id) === projectId;
+    return palette.project_id === projectId;
   })
   return matchPalettes.map( palette => {
     return (`
       <article class='palette-wrap paletteId-${palette.id}'>
         <h4 class='palette-name'>${palette.palette_name}</h4>
-        <div class='color-circle-wrap'>${displayColors(palette.palette)}</div>
-        <img src="/assets/trash.svg" 
-             alt="trash"
-             class="trash"
-             onclick="deletePalette(event)" />
+        <div class='color-circle-wrap'
+             onclick='renderClickedPalette(event)'>${displayColors(palette.palette)}</div>
+        <img src='/assets/trash.svg' 
+             alt='trash'
+             class='trash'
+             onclick='deletePalette(event)' />
       </article>
     `)
   }).join('');
 }
 
 const renderProjects = (projects, palettes) => {
+  const alternative = 'No palettes in this project yet!';
   const projectsToRender = projects.map( project => {
     return (`
       <article>
         <h2>${ project.project }</h2>
-        <div>${ renderPalettes(project.id, palettes) }</div>
+        <div>${ renderPalettes(project.id, palettes) || alternative }</div>
       </article>
     `)
   })
+  $('.projects-wrap').empty();
   $('.projects-wrap').append(projectsToRender);
 }
 
 const displayProjects = async () => {
   try {
-    const initialProjResponse = await fetch('/api/v1/projects');
-    const initialPaletteResponse = await fetch('/api/v1/palettes');
-    const projects = await initialProjResponse.json();
-    const palettes = await initialPaletteResponse.json();
-    renderProjects(projects, palettes);
-    renderProjectSelect(projects);
+    const paletteProjectObject = await getAllPalettesAndProjects();
+    renderProjects(paletteProjectObject.projects, paletteProjectObject.palettes);
+    renderProjectSelect(paletteProjectObject.projects);
   } catch (error) {
     console.log(error);
   }
