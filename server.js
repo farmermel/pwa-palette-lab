@@ -14,8 +14,8 @@ app.use(bodyParser.json());
 
 app.enable('trust proxy');
 
-app.use (function (req, res, next) {
-  if (req.secure) {
+app.use(function (req, res, next) {
+  if (req.secure || environment !== 'production') {
     // request was via https, so do no special handling
     next();
   } else {
