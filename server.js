@@ -11,6 +11,20 @@ app.set('port', process.env.PORT || 3006);
 
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
 app.use(bodyParser.json());
+
+app.enable('trust proxy');
+
+app.use(function (req, res, next) {
+  if (req.secure || environment !== 'production') {
+    // request was via https, so do no special handling
+    next();
+  } else {
+    // request was via http, so redirect to https
+    res.redirect('https://' + req.headers.host + req.url);
+  }
+});
+
+
 app.use(express.static('public'));
 
 app.listen(app.get('port'), () => {
