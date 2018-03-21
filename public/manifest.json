@@ -1,0 +1,30 @@
+{
+  "short_name": "Palette",
+  "name": "Palette Lab",
+  "background_color": "#e56b94",
+  "theme_color": "#e56b94",
+  "display": "fullscreen",
+  "icons": [
+    {
+      "src": "assets/flasks.svg",
+      "type": "image/svg",
+      "sizes": "48x48"
+    },
+    {
+      "src": "assets/flasks.svg",
+      "type": "image/svg",
+      "sizes": "96x96"
+    },
+    {
+      "src": "assets/flasks.svg",
+      "type": "image/svg",
+      "sizes": "192x192"
+    },
+    {
+      "src": "assets/flasks.svg",
+      "type": "image/svg",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "index.html?launcher=true"
+}
