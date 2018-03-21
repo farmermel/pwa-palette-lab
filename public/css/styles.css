@@ -206,6 +206,7 @@ select {
   -o-animation: fillup 4s linear;
   animation: fillup 4s linear;
 }
+
 @-moz-keyframes fillup {
   0% {
     -moz-transform: translate(0, 8em);
@@ -228,5 +229,20 @@ select {
   }
   100% {
     transform: translate(-82%, -1em);
+  }
+}
+
+@media screen and (max-width: 720px) {
+  body {
+    font-size: 12px;
+  }
+
+  .chemistry-set {
+    height: 40px;
+    width: 40px;
+  }
+
+  .generate-palettte {
+    width: 300px;
   }
 }
