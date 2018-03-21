@@ -4,13 +4,12 @@ this.addEventListener('install', event => {
       return cache.addAll([
         '/',
         '/js/scripts.js',
-        // '/bundle.js',
         '/css/styles.css',
         '/assets/flasks.svg',
         '/assets/locked.svg',
         '/assets/trash.svg',
-        '/assets/veryunlocked.svg',
-        '/node_modules/jquery',
+        '/assets/verylocked.svg',
+        '/jquery/jquery.js',
         '/helpers/cssHooks.js'
       ])
     })
